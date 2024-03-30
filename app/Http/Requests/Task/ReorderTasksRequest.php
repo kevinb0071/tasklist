@@ -11,7 +11,7 @@ class ReorderTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class ReorderTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'project_id' => 'required|integer|exists:projects,id',
+            'start' =>  'required|integer',
+            'end' => 'required|integer|different:start',
         ];
     }
 }

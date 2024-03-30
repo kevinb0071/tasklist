@@ -11,7 +11,7 @@ class ListTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,7 @@ class ListTaskRequest extends FormRequest
     {
         return [
             //
+            'project_id' => 'required|integer|exists:projects, id',
         ];
     }
 }
