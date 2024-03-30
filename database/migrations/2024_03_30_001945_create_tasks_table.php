@@ -13,15 +13,28 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->nullable()->constrained();
+            $table->integer('priority');
+            $table->string('title');
+            $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     */
-    public function down(): void
+     */  public function down(): void
     {
+        // drop existing foreign keys
+        Schema::table('tasks', function (Blueprint $table) {
+            if (Schema::hasColumn('tasks', 'project_id')) {
+                $table->dropForeign(['project_id']);
+            }
+        });
+
+        // drop the table
         Schema::dropIfExists('tasks');
     }
 };
+
